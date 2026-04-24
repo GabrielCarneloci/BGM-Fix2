@@ -447,6 +447,81 @@
           </svg>
         </button>
       </form>
+      <!-- Script de validação: coloque antes do fechamento </body> -->
+<script>
+  (function () {
+    const form = document.getElementById('contactForm');
+    const errorBox = document.getElementById('formError');
+
+    function clearError() {
+      errorBox.textContent = '';
+    }
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+    }
+
+    function validateEmail(email) {
+      // Validação simples de formato
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    form.addEventListener('submit', function (e) {
+      clearError();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name) {
+        e.preventDefault();
+        showError('Por favor, preencha o campo Nome.');
+        document.getElementById('name').focus();
+        return;
+      }
+
+      if (!email) {
+        e.preventDefault();
+        showError('Por favor, preencha o campo E-mail.');
+        document.getElementById('email').focus();
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        e.preventDefault();
+        showError('Por favor, informe um E-mail válido.');
+        document.getElementById('email').focus();
+        return;
+      }
+
+      if (!subject) {
+        e.preventDefault();
+        showError('Por favor, preencha o campo Assunto.');
+        document.getElementById('subject').focus();
+        return;
+      }
+
+      if (!message) {
+        e.preventDefault();
+        showError('Por favor, escreva a Mensagem.');
+        document.getElementById('message').focus();
+        return;
+      }
+
+      // Se chegar aqui, tudo ok — o formulário pode ser enviado.
+      // Se você usa envio via AJAX, previna o envio padrão e faça a requisição fetch/XHR aqui.
+    });
+
+    // Limpa erro quando usuário começa a digitar
+    ['name','email','subject','message'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', clearError);
+      }
+    });
+  })();
+</script>
 
     </div>
   </div>
